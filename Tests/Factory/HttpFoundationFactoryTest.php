@@ -65,6 +65,7 @@ class HttpFoundationFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $symfonyRequest = $this->factory->createRequest($serverRequest);
+        $symfonyRequest = $this->factory->createRequest($serverRequest);
         $files = $symfonyRequest->files->all();
 
         $this->assertEquals('http://les-tilleuls.coop', $symfonyRequest->query->get('url'));
@@ -212,4 +213,5 @@ class HttpFoundationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('The response body', $symfonyResponse->getContent());
         $this->assertEquals(200, $symfonyResponse->getStatusCode());
     }
+
 }

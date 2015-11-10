@@ -23,14 +23,16 @@ class UploadedFile implements UploadedFileInterface
     private $error;
     private $clientFileName;
     private $clientMediaType;
+    private $hasMoved;
 
-    public function __construct($filePath, $size = null, $error = UPLOAD_ERR_OK, $clientFileName = null, $clientMediaType = null)
+    public function __construct($filePath, $size = null, $error = UPLOAD_ERR_OK, $clientFileName = null, $clientMediaType = null, $hasMoved = false)
     {
         $this->filePath = $filePath;
         $this->size = $size;
         $this->error = $error;
         $this->clientFileName = $clientFileName;
         $this->clientMediaType = $clientMediaType;
+        $this->hasMoved = $hasMoved;
     }
 
     public function getStream()
@@ -40,6 +42,11 @@ class UploadedFile implements UploadedFileInterface
 
     public function moveTo($targetPath)
     {
+        if ($this->hasMoved) {
+            throw new \RuntimeException('File has already been moved.');
+        }
+
+        $this->hasMoved = true;
         rename($this->filePath, $targetPath);
     }
 
